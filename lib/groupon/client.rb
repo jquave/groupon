@@ -40,8 +40,10 @@ module Groupon
     def deals(query={})
       division = query.delete(:division)
       query.merge! :client_id => @api_key
+      query.merge! :channel_id => 'goods'
       path = division ? "/#{division}" : ""
       path += "/deals.json"
+      puts query
       self.class.get(path, :query => query).deals
     end
 
@@ -49,7 +51,7 @@ module Groupon
     #   Shows detailed information about a specified deal
     # @see https://sites.google.com/site/grouponapiv2/api-resources/deals#show-request
     def deal(id)
-      self.class.get("/deals/#{id}.json", :query => {:client_id => @api_key}).deal
+      self.class.get("/deals/#{id}.json", :query => {:channel_id => 'goods', :client_id => @api_key}).deal
     end
 
     def self.get(*args); handle_response super end
